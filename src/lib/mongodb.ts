@@ -1,24 +1,18 @@
 import mongoose from "mongoose";
 
-const MONGODB_URI = process.env.MONGODB_URI;
+const MONGODB_URI = process.env.MONGODB_URI || "mongodb+srv://new_user_ra:cQMKTaMcfURmHZCy@cluster0.6rtfn.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
 
 if (!MONGODB_URI) {
-  throw new Error("Please define the MONGODB_URI environment variable");
+  throw new Error("Please define the MONGODB_URI environment variable inside .env.local");
 }
 
-let cached = (global as any).mongoose;
-
-if (!cached) {
-  cached = (global as any).mongoose = { conn: null, promise: null };
-}
+let cached = (globalThis as any).mongoose || { conn: null, promise: null };
 
 export async function connectToDatabase() {
-  if (cached.conn) {
-    return cached.conn;
-  }
+  if (cached.conn) return cached.conn;
 
   if (!cached.promise) {
-    cached.promise = mongoose.connect(MONGODB_URI as string).then((mongoose) => mongoose);
+    cached.promise = mongoose.connect(MONGODB_URI).then((mongoose) => mongoose);
   }
 
   cached.conn = await cached.promise;
