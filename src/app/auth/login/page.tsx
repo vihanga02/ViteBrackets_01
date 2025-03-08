@@ -1,8 +1,10 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { jwtDecode } from "jwt-decode";
+import Navbar from "@/app/components/Navbar";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -42,7 +44,7 @@ export default function LoginPage() {
     setIsCheckingAuth(false);
   }, [router]);
 
-  if (isCheckingAuth) return <p>Checking authentication...</p>;
+  if (isCheckingAuth) return ;
 
   // ✅ Real-time validation
   const validateField = (name: string, value: string) => {
@@ -116,25 +118,80 @@ export default function LoginPage() {
   };
 
   return (
-    <div style={{ textAlign: "center", marginTop: "50px" }}>
-      <h1>Login</h1>
-      <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", width: "300px", margin: "0 auto" }}>
-        {/* Username Field */}
-        <input type="text" name="username" placeholder="Username" value={form.username} onChange={handleChange} required />
-        {errors.username && <p style={{ color: "red", fontSize: "12px" }}>{errors.username}</p>}
+    <div className="loginpage relative w-full h-screen flex justify-center items-center bg-gray-950 text-white">
+      <Navbar />
+      <img className="absolute z-0 opacity-5 w-full h-full" src="/images/grid.png" alt=""/>
+      <div className="absolute top-0 gradDot w-[400px] h-[400px] rounded-full bg-violet-600 blur-[150px] opacity-60 "></div>
+      <div className="flex items-center justify-center w-3/5 h-full z-20">
+        <div className="hidden lg:flex w-full p- ">
+          <img className="object-center object-cover" src="/images/comp.png" alt="" />
+        </div>
+        <div className="w-full p-10 flex items-center justify-center z-10">
+        <div
+            className="w-[450px] h-[500px] bg-white/2 backdrop-blur-lg shadow-[0_5px_15px_rgba(0,0,0,0.35)] rounded-[10px] box-border py-[60px] px-[40px]"
+          >
+            {/* Title */}
+            <p
+              className="text-center mt-[10px] mb-[30px] text-[28px] font-extrabold"
+              
+            >
+              Welcome back
+            </p>
 
-        {/* Password Field */}
-        <input type="password" name="password" placeholder="Password" value={form.password} onChange={handleChange} required />
-        {errors.password && <p style={{ color: "red", fontSize: "12px" }}>{errors.password}</p>}
+            {/* Form */}
+            <form className="w-full flex flex-col gap-[18px] mb-[15px]" onSubmit={handleSubmit}>
+            
+              <input
+                name="email"
+                
+                onChange={handleChange}
+                type="email"
+                placeholder="Email"
+                className="rounded-[20px] border border-[#c0c0c0] outline-none py-[12px] px-[15px]"
+              />
+              <input
+                name="password"
+                
+                onChange={handleChange}
+                type="password"
+                placeholder="Password"
+                className="rounded-[20px] border border-[#c0c0c0] outline-none py-[12px] px-[15px]"
+              />
+              <p className="underline m-0 text-end text-[#747474] decoration-[#747474]">
+                <span
+                  className="cursor-pointer text-[9px] font-bold hover:text-black"
+                >
+                  Forgot Password?
+                </span>
+              </p>
+              <button
+            
+                type="submit"
+                className="py-[10px] px-[15px] rounded-[20px] outline-none bg-gradient-to-r from-indigo-300 to-purple-400 text-white cursor-pointer shadow-[0_3px_8px_rgba(0,0,0,0.24)] active:shadow-none hover:scale-97 transition duration-100 ease-in"
+              >
+                Log in
+              </button>
+            </form>
 
-        {/* Authentication Error */}
-        {errors.auth && <p style={{ color: "red" }}>{errors.auth}</p>}
+            {/* Sign-up Link */}
+            <p
+              className="m-0 text-[10px] text-[#747474]"
+            >
+              Don&apos;t have an account?
+              <span
+                  
+                className="ml-[1px] text-[11px] underline decoration-indigo-300 text-indigo-300 cursor-pointer font-extrabold"
+              >
+                Sign up
+              </span>
+            </p>
 
-        {/* Submit Button */}
-        <button type="submit" disabled={loading} style={{ cursor: loading ? "not-allowed" : "pointer" }}>
-          {loading ? "Logging in..." : "Log In"}
-        </button>
-      </form>
+      {/* Social Login Buttons */}
+      
+    </div>
+        </div>
+      </div>
+      
 
       {/* Success Message */}
       {success && <p style={{ color: "green" }}>{success}</p>}
