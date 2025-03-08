@@ -18,7 +18,7 @@ import Link from "next/link";
 export default function Home() {
   
 
-  const [isSigned, setIsSigned] = useState(false)
+  const [isSigned, setIsSigned] = useState(true)
 
  
 
@@ -64,7 +64,7 @@ export default function Home() {
       </div>) : (
         <div ref={headerRef} className="flex flex-col items-center space-y-1">
           <div className="text-white font-poppins font-bold text-4xl sm:text-7xl select-none">Congratulations, user  </div>
-          <Typewriter text="Securely Connected!" speed={100} />
+          <Typewriter text="Securely Connected!" speed={100} containerClass="text-[#90e0ef]" />
       </div>
     )} 
       
