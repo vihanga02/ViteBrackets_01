@@ -119,11 +119,11 @@ export default function LoginPage() {
 
   return (
     <div className="loginpage relative w-full h-screen flex justify-center items-center bg-gray-950 text-white">
-      <Navbar />
+      <Navbar isSigned />
       <img className="absolute z-0 opacity-5 w-full h-full" src="/images/grid.png" alt=""/>
       <div className="absolute top-0 gradDot w-[400px] h-[400px] rounded-full bg-violet-600 blur-[150px] opacity-60 "></div>
       <div className="flex items-center justify-center w-3/5 h-full z-20">
-        <div className="hidden lg:flex w-full p- ">
+        <div className="hidden xl:flex w-full p- ">
           <img className="object-center object-cover" src="/images/comp.png" alt="" />
         </div>
         <div className="w-full p-10 flex items-center justify-center z-10">
@@ -142,24 +142,31 @@ export default function LoginPage() {
             <form className="w-full flex flex-col gap-[18px] mb-[15px]" onSubmit={handleSubmit}>
             
               <input
-                name="email"
-                
+                name="username"
+                value={form.username}
                 onChange={handleChange}
-                type="email"
-                placeholder="Email"
-                className="rounded-[20px] border border-[#c0c0c0] outline-none py-[12px] px-[15px]"
+                type="text"
+                placeholder="Username"
+                className="rounded-[10px] border border-[#c0c0c0]/5 outline-none py-[12px] px-[15px]"
+                required
               />
+              {errors.username && <p style={{ color: "red", fontSize: "12px" }}>{errors.username}</p>}
               <input
                 name="password"
-                
+                value={form.password}
                 onChange={handleChange}
                 type="password"
                 placeholder="Password"
-                className="rounded-[20px] border border-[#c0c0c0] outline-none py-[12px] px-[15px]"
+                className="rounded-[10px] border border-[#c0c0c0]/5 outline-none py-[12px] px-[15px]"
               />
-              <p className="underline m-0 text-end text-[#747474] decoration-[#747474]">
+              {errors.password && <p style={{ color: "red", fontSize: "12px" }}>{errors.password}</p>}
+                
+                {/* Authentication Error */}
+              {errors.auth && <p style={{ color: "red" }}>{errors.auth}</p>}
+              
+              <p className="underline m-0 text-end text-purple-400 decoration-violet-500">
                 <span
-                  className="cursor-pointer text-[9px] font-bold hover:text-black"
+                  className="cursor-pointer text-[9px] font-bold hover:text-purple-300"
                 >
                   Forgot Password?
                 </span>
@@ -179,12 +186,15 @@ export default function LoginPage() {
             >
               Don&apos;t have an account?
               <span
-                  
-                className="ml-[1px] text-[11px] underline decoration-indigo-300 text-indigo-300 cursor-pointer font-extrabold"
+                onClick={() => router.push("/auth/signup")}
+                className="ml-[1px] text-[11px] underline decoration-violet-500 text-purple-400 cursor-pointer font-extrabold"
               >
                 Sign up
               </span>
             </p>
+
+            {/* Success Message */}
+            {success && <p style={{ color: "green" }}>{success}</p>}
 
       {/* Social Login Buttons */}
       
