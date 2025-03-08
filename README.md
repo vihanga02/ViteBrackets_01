@@ -2,7 +2,7 @@
 
 1. Clone the Repository
 
-git clone https://github.com/YOUR_GITHUB_USERNAME/SecureConnect.git
+git clone [https://github.com/YOUR_GITHUB_USERNAME/SecureConnect.git](https://github.com/vihanga02/ViteBrackets_01.git)
 cd SecureConnect
 
 2. Install Dependencies
