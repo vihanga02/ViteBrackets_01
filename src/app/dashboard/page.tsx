@@ -2,27 +2,34 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { jwtDecode } from "jwt-decode";
+import {jwtDecode} from "jwt-decode";
 
 export default function Dashboard() {
   const router = useRouter();
   const [username, setUsername] = useState("");
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
+    const activeUser = localStorage.getItem("active_user");
+    if (!activeUser) {
+      router.push("/auth/login");
+      return;
+    }
+
+    const token = localStorage.getItem(`token_${activeUser}`);
 
     if (!token) {
-      router.push("/auth/login"); // Redirect to login if no token
+      router.push("/auth/login");
       return;
     }
 
     try {
-      // Decode JWT token to extract username
+      // Decode JWT token
       const decodedToken: { username: string; exp: number } = jwtDecode(token);
 
-      // Check if token is expired
+      // Check if token has expired
       if (decodedToken.exp * 1000 < Date.now()) {
-        localStorage.removeItem("token");
+        localStorage.removeItem(`token_${activeUser}`);
+        localStorage.removeItem("active_user");
         router.push("/auth/login");
         return;
       }
@@ -30,13 +37,18 @@ export default function Dashboard() {
       setUsername(decodedToken.username);
     } catch (error) {
       console.error("Invalid token:", error);
-      localStorage.removeItem("token");
+      localStorage.removeItem(`token_${activeUser}`);
+      localStorage.removeItem("active_user");
       router.push("/auth/login");
     }
   }, [router]);
 
   const handleLogout = () => {
-    localStorage.removeItem("token");
+    const activeUser = localStorage.getItem("active_user");
+    if (activeUser) {
+      localStorage.removeItem(`token_${activeUser}`);
+      localStorage.removeItem("active_user");
+    }
     router.push("/auth/login");
   };
 
