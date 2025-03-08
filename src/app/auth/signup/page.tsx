@@ -204,7 +204,7 @@ export default function SignupPage() {
       </span>
     </p>
 
-    {success && toast.success('Logged in Successfully!', {
+    {success && toast.success('Registered Successfully!', {
                 position: "top-right",
                 autoClose: 5000,
                 hideProgressBar: false,
