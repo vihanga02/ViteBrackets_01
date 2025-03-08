@@ -73,7 +73,7 @@ export default function Home() {
       
     <footer className="w-full h-32 flex justify-center items-center z-50">
       <div className="absolute bottom-0 w-full flex justify-center items-center text-white bg-gray-950 text-sm font-poppins">
-        <p>&copy; 2021 SecureConnect. All rights reserved.</p>
+        <p>&copy; 2025 SecureConnect. All rights reserved.</p>
       </div>
     </footer>
       
