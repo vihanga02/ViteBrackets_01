@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
+import clsx from "clsx";
 
 interface TypewriterProps {
   text: string;
   speed?: number;
   pause?: number;
+  containerClass?: string;
 }
 
-const Typewriter: React.FC<TypewriterProps> = ({ text, speed = 100, pause = 2000 }) => {
+const Typewriter: React.FC<TypewriterProps> = ({ text, speed = 100, pause = 2000, containerClass }) => {
   const [displayedText, setDisplayedText] = useState('');
   const [index, setIndex] = useState(0);
   const [isDeleting, setIsDeleting] = useState(false);
@@ -42,7 +44,7 @@ const Typewriter: React.FC<TypewriterProps> = ({ text, speed = 100, pause = 2000
   }, [index, isDeleting, text, speed, pause]);
 
   return (
-    <div className="font-mono text-xl sm:text-4xl text-white/70">
+    <div className={clsx('font-space-mono sm:text-3xl select-none', containerClass)}>
       {displayedText}
       <span
         className="border-r-2 border-white"

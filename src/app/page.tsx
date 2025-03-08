@@ -18,7 +18,7 @@ import Link from "next/link";
 export default function Home() {
   
 
-  const [isSigned, setIsSigned] = useState(true)
+  const [isSigned, setIsSigned] = useState(false)
 
  
 
@@ -55,8 +55,8 @@ export default function Home() {
       <Navbar isSigned={isSigned} />
       <div className="absolute top-0 gradDot w-[400px] h-[400px] rounded-full bg-violet-600 blur-[150px] opacity-60 "></div>
       {!isSigned ? (<div ref={headerRef} className="flex flex-col items-center">
-        <div className="text-white font-poppins font-bold text-7xl sm:text-9xl select-none">WELCOME</div>
-        <div className="font-space-mono text-gray-300 sm:text-3xl select-none">Your Gateway to a Safer Login System!</div>
+        <div className="text-[#ffffff] font-poppins font-bold text-7xl sm:text-9xl select-none">WELCOME</div>
+        <Typewriter text="Sign up now to get started!" speed={100} containerClass="font-space-mono text-[#90e0ef] sm:text-3xl select-none"/>
         <div className="signButtons flex space-x-4 mt-8">
           <Link href="/login"><Button id="login" title="Sign up" containerClass="text-white bg-gradient-to-r from-indigo-300 to-purple-400 border-none"/></Link>         
           <Link href="/"><Button id="login" title="Login" containerClass="text-white bg-gradient-to-r from-indigo-300 to-purple-400 border-none" /></Link>
