@@ -11,7 +11,7 @@ interface ButtonProps {
 }
 
 
-const Button: React.FC<ButtonProps> = ({ id, title, rightIcon, leftIcon, containerClass }) => {
+const Button: React.FC<ButtonProps> = ({ id, title, rightIcon, leftIcon, containerClass, onClick }) => {
   return (
     <button
       id={id}
@@ -19,6 +19,7 @@ const Button: React.FC<ButtonProps> = ({ id, title, rightIcon, leftIcon, contain
         "relative z-50 cursor-pointer overflow-hidden rounded-full bg-white/5 px-5 py-2 text-black border border-white/10 text-xs group",
         containerClass
       )}
+      onClick={onClick}
     >
       {leftIcon}
 
