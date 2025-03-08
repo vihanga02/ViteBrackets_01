@@ -1,36 +1,77 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+🚀 Getting Started
 
-## Getting Started
+1. Clone the Repository
 
-First, run the development server:
+git clone https://github.com/YOUR_GITHUB_USERNAME/SecureConnect.git
+cd SecureConnect
 
-```bash
+2. Install Dependencies
+
+npm install
+
+or
+
+yarn install
+
+3. Set Up Environment Variables
+
+Create a .env.local file in the root directory and add the following variables:
+
+MONGODB_URI=mongodb+srv://your-username:your-password@cluster.mongodb.net/your-database-name?retryWrites=true&w=majority
+JWT_SECRET=your-random-secret-key
+
+Replace your-username and your-password with your MongoDB credentials.
+
+Replace your-database-name with your actual database name.
+
+Replace your-random-secret-key with a secure random string (generate using openssl rand -base64 32 (for Linux/macOS) or pwsh -Command [System.Convert]::ToBase64String([System.Security.Cryptography.RandomNumberGenerator]::GetBytes(32)) (for Windows)`).
+
+4. Start the Development Server
+
 npm run dev
-# or
+
+or
+
 yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+The application will run at http://localhost:3000
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+🔐 JWT Authentication
 
-## Learn More
+Generating a JWT Token
 
-To learn more about Next.js, take a look at the following resources:
+Upon successful login, the API generates a JWT token using the jsonwebtoken package.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+The token is stored in localStorage and is used to authenticate protected routes.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Verifying the Token in API Requests
 
-## Deploy on Vercel
+Include the JWT token in the Authorization header of protected API requests:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Authorization: Bearer your-jwt-token
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+💡 Contributors Guide
+
+Want to contribute? Follow these steps:
+
+Fork the repository.
+
+Create a feature branch (git checkout -b feature-branch).
+
+Commit your changes (git commit -m "Added a new feature").
+
+Push to GitHub (git push origin feature-branch).
+
+Open a Pull Request.
+
+📜 License
+
+This project is open-source and available under the MIT License.
+
+📞 Contact
+
+For any issues, feel free to open an issue in the GitHub repository or reach out to the project maintainers.
+
+🚀 Happy Coding! 🎉
+
