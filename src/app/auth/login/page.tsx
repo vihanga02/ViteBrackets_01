@@ -1,22 +1,56 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
-
-import { useState, useEffect } from "react";
+import gsap from "gsap";
+import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { jwtDecode } from "jwt-decode";
 import Navbar from "@/app/components/Navbar";
+import { toast, Bounce } from "react-toastify"
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function LoginPage() {
+
+  
+
+
   const router = useRouter();
   const [form, setForm] = useState({ username: "", password: "" });
   const [errors, setErrors] = useState({ username: "", password: "", auth: "" });
   const [success, setSuccess] = useState("");
   const [loading, setLoading] = useState(false);
   const [isCheckingAuth, setIsCheckingAuth] = useState(true);
-
+  const imgRef = useRef(null);
+  const formRef = useRef(null);
 
 
   useEffect(() => {
+    gsap.set(formRef.current, { y: -20, opacity: 0 });
+    gsap.to(formRef.current, {
+      y: 0,
+      opacity: 1,
+      duration: 0.7,
+      delay: 0.2,
+    });
+
+    gsap.set(imgRef.current, { scale: 0.97, opacity: 0 });
+    gsap.to(imgRef.current, {
+      scale: 1,
+      opacity: 1,
+      duration: 0.7,
+    });
+
+    gsap.set('.gradDot', { x: -200, y: -200, opacity: 0 });
+    gsap.to('.gradDot', {
+      x: 0,
+      y: 0,
+      opacity: 0.6,
+      duration: 0.7,
+    });
+  }, [])
+  
+
+  useEffect(() => {
+    
     const activeUser = localStorage.getItem("active_user");
 
     if (activeUser) {
@@ -43,6 +77,8 @@ export default function LoginPage() {
     }
     setIsCheckingAuth(false);
   }, [router]);
+
+
 
   if (isCheckingAuth) return ;
 
@@ -124,9 +160,9 @@ export default function LoginPage() {
       <div className="absolute top-0 gradDot w-[400px] h-[400px] rounded-full bg-violet-600 blur-[150px] opacity-60 "></div>
       <div className="flex items-center justify-center w-3/5 h-full z-20">
         <div className="hidden xl:flex w-full p- ">
-          <img className="object-center object-cover" src="/images/comp.png" alt="" />
+          <img ref={imgRef} className="object-center object-cover" src="/images/comp.png" alt="" />
         </div>
-        <div className="w-full p-10 flex items-center justify-center z-10">
+        <div ref={formRef}  className="w-full p-10 flex items-center justify-center z-10">
         <div
             className="w-[450px] h-[500px] bg-white/2 backdrop-blur-lg shadow-[0_5px_15px_rgba(0,0,0,0.35)] rounded-[10px] box-border py-[60px] px-[40px]"
           >
@@ -194,17 +230,29 @@ export default function LoginPage() {
             </p>
 
             {/* Success Message */}
-            {success && <p style={{ color: "green" }}>{success}</p>}
+            {success && toast.success('Logged in Successfully!', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: false,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+                transition: Bounce,
+                })}
 
       {/* Social Login Buttons */}
       
     </div>
+      {success && <p style={{ color: "green" }}>{success}</p>}
         </div>
       </div>
       
 
       {/* Success Message */}
-      {success && <p style={{ color: "green" }}>{success}</p>}
+
     </div>
+    
   );
 }

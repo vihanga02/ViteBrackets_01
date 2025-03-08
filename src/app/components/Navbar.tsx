@@ -31,7 +31,7 @@ const Navbar: React.FC<NavbarProps> = ({ isSigned }) => {
         <div className='flex justify-between items-center h-full px-8'>
             <div className='text-white font-geo font-medium text-2xl'>SecureConnect</div>
             <div className='flex items-center space-x-4 z-50'>
-                {isSigned? <Button id='login' title='Sign up' containerClass='text-white bg-white/2' /> : <Button id='login' title='Sign up' containerClass='text-white bg-transparent' />}
+                {isSigned? <Button id='login' title='Explore' containerClass='text-white bg-white/2' /> : <Button id='login' title='Explore' containerClass='text-white bg-transparent' />}
 
             </div>
         </div>

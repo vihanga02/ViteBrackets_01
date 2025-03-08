@@ -1,9 +1,11 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import Navbar from "@/app/components/Navbar";
+import { toast, Bounce } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 type PasswordStrengthProps = {
   passwordStrength: string;
@@ -16,6 +18,9 @@ export default function SignupPage() {
   const [success, setSuccess] = useState("");
   const [loading, setLoading] = useState(false);
   const [passwordStrength, setPasswordStrength] = useState("");
+
+  const imgRef = useRef(null);
+  const formRef = useRef(null);
 
   // ✅ Password Strength Indicator
   const checkPasswordStrength = (password: string) => {
@@ -199,7 +204,17 @@ export default function SignupPage() {
       </span>
     </p>
 
-    {success && <p style={{ color: "green" }}>{success}</p>}
+    {success && toast.success('Logged in Successfully!', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: false,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+                transition: Bounce,
+                })}
     
   </div>
         </div>
