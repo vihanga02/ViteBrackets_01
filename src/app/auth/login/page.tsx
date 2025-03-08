@@ -1,16 +1,50 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { jwtDecode } from "jwt-decode";
 
 export default function LoginPage() {
   const router = useRouter();
   const [form, setForm] = useState({ username: "", password: "" });
-  const [errors, setErrors] = useState({ username: "", password: "" });
+  const [errors, setErrors] = useState({ username: "", password: "", auth: "" });
   const [success, setSuccess] = useState("");
   const [loading, setLoading] = useState(false);
+  const [isCheckingAuth, setIsCheckingAuth] = useState(true);
 
-  // ✅ Real-time validation for login inputs
+
+
+  useEffect(() => {
+    const activeUser = localStorage.getItem("active_user");
+
+    if (activeUser) {
+      const token = localStorage.getItem(`token_${activeUser}`);
+
+      if (token) {
+        try {
+          const decodedToken: { exp: number } = jwtDecode(token);
+          if (decodedToken.exp * 1000 < Date.now()) {
+            // ✅ Expired token, clear session
+            localStorage.removeItem(`token_${activeUser}`);
+            localStorage.removeItem("active_user");
+          } else {
+            // ✅ If valid, redirect to dashboard
+            router.push("/dashboard");
+            return;
+          }
+        } catch (error) {
+          console.error("Invalid token:", error);
+          localStorage.removeItem(`token_${activeUser}`);
+          localStorage.removeItem("active_user");
+        }
+      }
+    }
+    setIsCheckingAuth(false);
+  }, [router]);
+
+  if (isCheckingAuth) return <p>Checking authentication...</p>;
+
+  // ✅ Real-time validation
   const validateField = (name: string, value: string) => {
     let error = "";
 
@@ -29,18 +63,21 @@ export default function LoginPage() {
     const { name, value } = e.target;
     setForm({ ...form, [name]: value });
 
-    // ✅ Validate field in real-time
+    // Validate as user types
     validateField(name, value);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setSuccess("");
+    setErrors((prev) => ({ ...prev, auth: "" }));
     setLoading(true);
+    
 
-    // ✅ Final validation before sending request
+    // ✅ Final validation check before sending request
     if (!form.username || !form.password) {
       setErrors({
+        ...errors,
         username: form.username ? "" : "Username is required.",
         password: form.password ? "" : "Password is required.",
       });
@@ -53,7 +90,6 @@ export default function LoginPage() {
       return; // Stop submission if errors exist
     }
 
-    // ✅ API Request to Login
     try {
       const response = await fetch("/api/auth/login", {
         method: "POST",
@@ -63,16 +99,17 @@ export default function LoginPage() {
 
       const data = await response.json();
       if (!response.ok) {
-        setErrors((prev) => ({ ...prev, username: data.error || "Login failed." }));
+        setErrors((prev) => ({ ...prev, auth: data.error || "Login failed." }));
       } else {
-        setSuccess("Login successful! Redirecting to dashboard...");
-        localStorage.setItem("token", data.token); // Store JWT token
+        // ✅ Store a separate session for each user
+        localStorage.setItem(`token_${form.username}`, data.token);
+        localStorage.setItem("active_user", form.username); // Track active user
 
-        // Redirect to dashboard after 2 seconds
+        setSuccess("Login successful! Redirecting...");
         setTimeout(() => router.push("/dashboard"), 2000);
       }
     } catch (error) {
-      setErrors((prev) => ({ ...prev, username: "An error occurred. Please try again." }));
+      setErrors((prev) => ({ ...prev, auth: "An error occurred. Please try again." }));
     } finally {
       setLoading(false);
     }
@@ -89,6 +126,9 @@ export default function LoginPage() {
         {/* Password Field */}
         <input type="password" name="password" placeholder="Password" value={form.password} onChange={handleChange} required />
         {errors.password && <p style={{ color: "red", fontSize: "12px" }}>{errors.password}</p>}
+
+        {/* Authentication Error */}
+        {errors.auth && <p style={{ color: "red" }}>{errors.auth}</p>}
 
         {/* Submit Button */}
         <button type="submit" disabled={loading} style={{ cursor: loading ? "not-allowed" : "pointer" }}>
