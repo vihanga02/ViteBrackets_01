@@ -8,7 +8,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 export default function Home() {
-  const [isSigned, setIsSigned] = useState(true);
+  const [isSigned, setIsSigned] = useState(false);
   const [user, setUser] = useState<string | null>(null);
   const router = useRouter();
   const headerRef = useRef(null);
